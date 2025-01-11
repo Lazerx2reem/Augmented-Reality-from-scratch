@@ -16,3 +16,4 @@ Steps:
 3. Derive from the homography the transformation from the reference surface coordinate system to the target image coordinate system.
 
 4. Project our 3D model in the image (pixel space) and draw it.
+
