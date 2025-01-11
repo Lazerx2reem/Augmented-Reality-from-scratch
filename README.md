@@ -17,3 +17,4 @@ Steps:
 
 4. Project our 3D model in the image (pixel space) and draw it.
 
+Since this is a real time application, it would have been better to implement a tracking technique and not just plain recognition
