@@ -24,3 +24,5 @@ Once we have identified the reference surface in the current frame and have a se
 Since we have already found a set of matches between both images we can certainly find directly by any of the existing methods an homogeneous transformation that performs the mapping.
 
 There are several methods that allow us to estimate the values of the homography matrix. The one we will be using is RANdom SAmple Consensus  (RANSAC)
+
+The code used to load the models is based on this OBJFileLoader script that was found on Pygame’s website
