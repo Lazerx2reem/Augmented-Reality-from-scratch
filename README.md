@@ -22,3 +22,5 @@ Since this is a real time application, it would have been better to implement a 
 Once we have identified the reference surface in the current frame and have a set of valid matches we can proceed to estimate the homography between both images.
 
 Since we have already found a set of matches between both images we can certainly find directly by any of the existing methods an homogeneous transformation that performs the mapping.
+
+There are several methods that allow us to estimate the values of the homography matrix. The one we will be using is RANdom SAmple Consensus  (RANSAC)
