@@ -1,5 +1,10 @@
-import cv2
+import argparse
 
+import cv2
+import numpy as np
+import math
+import os
+from objloader_simple import *
 
 img = cv2.imread('scene.jpg',0)
 
