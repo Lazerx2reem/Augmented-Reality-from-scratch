@@ -93,3 +93,26 @@ def projection_matrix(camera_parameters, homography):
     # finally, compute the 3D projection matrix from the model to the current frame
     projection = np.stack((rot_1, rot_2, rot_3, translation)).T
     return np.dot(camera_parameters, projection)
+
+def render(img, obj, projection, model, color=False):
+    vertices = obj.vertices
+    scale_matrix = np.eye(3) * 3
+    h, w = model.shape
+
+    for face in obj.faces:
+        face_vertices = face[0]
+        points = np.array([vertices[vertex - 1] for vertex in face_vertices])
+        points = np.dot(points, scale_matrix)
+        # render model in the middle of the reference surface. To do so,
+        # model points must be displaced
+        points = np.array([[p[0] + w / 2, p[1] + h / 2, p[2]] for p in points])
+        dst = cv2.perspectiveTransform(points.reshape(-1, 1, 3), projection)
+        imgpts = np.int32(dst)
+        if color is False:
+            cv2.fillConvexPoly(img, imgpts, (137, 27, 211))
+        else:
+            color = hex_to_rgb(face[-1])
+            color = color[::-1] # reverse
+            cv2.fillConvexPoly(img, imgpts, color)
+
+    return img
