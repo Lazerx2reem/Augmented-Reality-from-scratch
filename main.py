@@ -40,7 +40,7 @@ def main():
         # sort them in the order of their distance
         # the lower the distance, the better the match
         matches = sorted(matches, key=lambda x: x.distance)
-        
+
         # compute Homography if enough matches are found
         if len(matches) > MIN_MATCHES:
             # differenciate between source points and destination points
@@ -55,7 +55,17 @@ def main():
                 # project corners into frame
                 dst = cv2.perspectiveTransform(pts, homography)
                 # connect them with lines  
-                frame = cv2.polylines(frame, [np.int32(dst)], True, 255, 3, cv2.LINE_AA)  
+                frame = cv2.polylines(frame, [np.int32(dst)], True, 255, 3, cv2.LINE_AA) 
+            # if a valid homography matrix was found render cube on model plane
+            if homography is not None:
+                try:
+                    # obtain 3D projection matrix from homography matrix and camera parameters
+                    projection = projection_matrix(camera_parameters, homography)  
+                    # project cube or model
+                    frame = render(frame, obj, projection, model, False)
+                    #frame = render(frame, model, projection)
+                except:
+                    pass
 
 
 MIN_MATCHES = 15
