@@ -6,6 +6,9 @@ import math
 import os
 from objloader_simple import *
 
+MIN_MATCHES = 10
+DEFAULT_COLOR = (0, 0, 0)
+
 def main():
     """
     This functions loads the target surface image,
@@ -68,7 +71,6 @@ def main():
                     pass
 
 
-MIN_MATCHES = 15
 cap = cv2.imread('scene.jpg', 0)    
 model = cv2.imread('model.jpg', 0)
 # ORB keypoint detector
