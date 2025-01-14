@@ -69,6 +69,20 @@ def main():
                     #frame = render(frame, model, projection)
                 except:
                     pass
+                # draw first 10 matches.
+            if args.matches:
+                frame = cv2.drawMatches(model, kp_model, frame, kp_frame, matches[:10], 0, flags=2)
+            # show result
+            cv2.imshow('frame', frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        else:
+            print("Not enough matches found - %d/%d" % (len(matches), MIN_MATCHES))
+
+    cap.release()
+    cv2.destroyAllWindows()
+    return 0
 
 
 cap = cv2.imread('scene.jpg', 0)    
