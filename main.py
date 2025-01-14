@@ -40,6 +40,22 @@ def main():
         # sort them in the order of their distance
         # the lower the distance, the better the match
         matches = sorted(matches, key=lambda x: x.distance)
+        
+        # compute Homography if enough matches are found
+        if len(matches) > MIN_MATCHES:
+            # differenciate between source points and destination points
+            src_pts = np.float32([kp_model[m.queryIdx].pt for m in matches]).reshape(-1, 1, 2)
+            dst_pts = np.float32([kp_frame[m.trainIdx].pt for m in matches]).reshape(-1, 1, 2)
+            # compute Homography
+            homography, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+            if args.rectangle:
+                # Draw a rectangle that marks the found model in the frame
+                h, w = model.shape
+                pts = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(-1, 1, 2)
+                # project corners into frame
+                dst = cv2.perspectiveTransform(pts, homography)
+                # connect them with lines  
+                frame = cv2.polylines(frame, [np.int32(dst)], True, 255, 3, cv2.LINE_AA)  
 
 
 MIN_MATCHES = 15
