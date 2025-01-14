@@ -27,6 +27,20 @@ def main():
     # init video capture
     cap = cv2.VideoCapture(0)
 
+    while True:
+        # read the current frame
+        ret, frame = cap.read()
+        if not ret:
+            print("Unable to capture video")
+            return 
+        # find and draw the keypoints of the frame
+        kp_frame, des_frame = orb.detectAndCompute(frame, None)
+        # match frame descriptors with model descriptors
+        matches = bf.match(des_model, des_frame)
+        # sort them in the order of their distance
+        # the lower the distance, the better the match
+        matches = sorted(matches, key=lambda x: x.distance)
+
 
 MIN_MATCHES = 15
 cap = cv2.imread('scene.jpg', 0)    
