@@ -6,21 +6,27 @@ import math
 import os
 from objloader_simple import *
 
-img = cv2.imread('scene.jpg',0)
+def main():
+    """
+    This functions loads the target surface image,
+    """
+    homography = None 
+    # matrix of camera parameters (made up but works quite well for me) 
+    camera_parameters = np.array([[800, 0, 320], [0, 800, 240], [0, 0, 1]])
+    # create ORB keypoint detector
+    orb = cv2.ORB_create()
+    # create BFMatcher object based on hamming distance  
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+    # load the reference surface that will be searched in the video stream
+    dir_name = os.getcwd()
+    model = cv2.imread(os.path.join(dir_name, 'reference/model.jpg'), 0)
+    # Compute model keypoints and its descriptors
+    kp_model, des_model = orb.detectAndCompute(model, None)
+    # Load 3D model from OBJ file
+    obj = OBJ(os.path.join(dir_name, 'models/fox.obj'), swapyz=True)  
+    # init video capture
+    cap = cv2.VideoCapture(0)
 
-# Initiate ORB detector
-orb = cv2.ORB_create()
-
-# find the keypoints with ORB
-kp = orb.detect(img, None)
-
-# compute the descriptors with ORB
-kp, des = orb.compute(img, kp)
-
-# draw only keypoints location,not size and orientation
-img2 = cv2.drawKeypoints(img, kp, img, color=(0,255,0), flags=0)
-cv2.imshow('keypoints',img2)
-cv2.waitKey(0)
 
 MIN_MATCHES = 15
 cap = cv2.imread('scene.jpg', 0)    
