@@ -157,6 +157,9 @@ def projection_matrix(camera_parameters, homography):
     return np.dot(camera_parameters, projection)
 
 def render(img, obj, projection, model, color=False):
+    """
+    Render a loaded obj model into the current video frame
+    """
     vertices = obj.vertices
     scale_matrix = np.eye(3) * 3
     h, w = model.shape
@@ -171,10 +174,10 @@ def render(img, obj, projection, model, color=False):
         dst = cv2.perspectiveTransform(points.reshape(-1, 1, 3), projection)
         imgpts = np.int32(dst)
         if color is False:
-            cv2.fillConvexPoly(img, imgpts, (137, 27, 211))
+            cv2.fillConvexPoly(img, imgpts, DEFAULT_COLOR)
         else:
             color = hex_to_rgb(face[-1])
-            color = color[::-1] # reverse
+            color = color[::-1]  # reverse
             cv2.fillConvexPoly(img, imgpts, color)
 
     return img
