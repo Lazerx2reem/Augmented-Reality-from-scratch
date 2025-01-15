@@ -144,3 +144,17 @@ def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
     h_len = len(hex_color)
     return tuple(int(hex_color[i:i + h_len // 3], 16) for i in range(0, h_len, h_len // 3))
+
+parser = argparse.ArgumentParser(description='Augmented reality application')
+
+parser.add_argument('-r','--rectangle', help = 'draw rectangle delimiting target surface on frame', action = 'store_true')
+parser.add_argument('-mk','--model_keypoints', help = 'draw model keypoints', action = 'store_true')
+parser.add_argument('-fk','--frame_keypoints', help = 'draw frame keypoints', action = 'store_true')
+parser.add_argument('-ma','--matches', help = 'draw matches between keypoints', action = 'store_true')
+# TODO jgallostraa -> add support for model specification
+#parser.add_argument('-mo','--model', help = 'Specify model to be projected', action = 'store_true')
+
+args = parser.parse_args()
+
+if __name__ == '__main__':
+    main()
