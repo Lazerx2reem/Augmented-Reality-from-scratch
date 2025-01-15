@@ -136,3 +136,11 @@ def render(img, obj, projection, model, color=False):
             cv2.fillConvexPoly(img, imgpts, color)
 
     return img
+
+def hex_to_rgb(hex_color):
+    """
+    Helper function to convert hex strings to RGB
+    """
+    hex_color = hex_color.lstrip('#')
+    h_len = len(hex_color)
+    return tuple(int(hex_color[i:i + h_len // 3], 16) for i in range(0, h_len, h_len // 3))
